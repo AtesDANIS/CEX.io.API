@@ -64,10 +64,20 @@ namespace CEX.io.API
     #endregion
 
     #region Private Methods
-    private Int64 GetNonce()
-    {
-      return Convert.ToInt64(Math.Truncate((DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds));
-    }
+    static Int64 defaultNonce = 0;
+        private Int64 GetNonce()
+        {
+            if (defaultNonce == 0)
+            {
+                defaultNonce = Convert.ToInt64(Math.Truncate((DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds));
+                return defaultNonce;
+            }
+            else
+            {
+                defaultNonce = defaultNonce + 1;
+                return defaultNonce;
+            }
+        }
 
     private string GetSignature(Int64 nonce)
     {
